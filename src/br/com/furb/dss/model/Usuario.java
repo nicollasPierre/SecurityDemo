@@ -14,6 +14,7 @@ import java.util.LinkedList;
 public class Usuario {
     private String login;
     private String hash;
+    private String salt;
     private LinkedList<Roles> roles;
 
     public Usuario(String login, String hash, Roles role) {
@@ -21,6 +22,22 @@ public class Usuario {
         this.hash = hash;
         this.roles = new LinkedList<>();
         this.roles.add(role);
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public String getSalt() {
+        return salt == null ? "" : salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public Usuario(String login, String hash, LinkedList<Roles> role) {
