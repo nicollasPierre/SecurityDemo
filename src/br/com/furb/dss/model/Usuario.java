@@ -6,14 +6,27 @@
 package br.com.furb.dss.model;
 
 import java.util.LinkedList;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author nicol
  */
+@Entity
+@Table(name="usuario")
 public class Usuario {
+    @Id
+    @GeneratedValue
+    private int id;
+    @Column
     private String login;
+    @Column
     private String hash;
+    @Column
     private String salt;
     private LinkedList<Roles> roles;
 
@@ -30,6 +43,14 @@ public class Usuario {
 
     public void setHash(String hash) {
         this.hash = hash;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSalt() {

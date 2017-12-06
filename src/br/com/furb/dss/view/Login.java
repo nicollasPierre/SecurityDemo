@@ -6,6 +6,7 @@
 package br.com.furb.dss.view;
 
 import br.com.furb.dss.controller.UsuarioController;
+import br.com.furb.dss.controller.UsuarioDao;
 import br.com.furb.dss.model.Roles;
 import br.com.furb.dss.model.Usuario;
 import javax.swing.JOptionPane;
@@ -25,6 +26,9 @@ public class Login extends javax.swing.JFrame {
          usuarioController = UsuarioController.getInstance();
         Usuario teste = new Usuario("paulo", "123", Roles.admin);
         usuarioController.addUsuario(teste);
+        UsuarioDao uDao = UsuarioDao.getInstance();
+        teste.setId(1);
+        //uDao.persist(teste);
     }
 
     /**
