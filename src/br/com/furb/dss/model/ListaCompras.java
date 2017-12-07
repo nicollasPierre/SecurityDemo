@@ -5,13 +5,38 @@
  */
 package br.com.furb.dss.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 /**
  *
  * @author nicol
  */
+@Entity
+@Table(name="listaCompras")
 public class ListaCompras {
+    @Id
+    @GeneratedValue
+    private int id;
+    @Column
     private String lista;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="usuario_fk")
     private Usuario usuario;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getLista() {
         return lista;
