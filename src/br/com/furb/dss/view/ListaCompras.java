@@ -1,21 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.furb.dss.view;
+
+import br.com.furb.dss.model.Roles;
+import br.com.furb.dss.model.Usuario;
+import javax.swing.JFrame;
 
 /**
  *
- * @author nicol
+ * @author drmartini
  */
-public class ListaCompras extends javax.swing.JPanel {
+public class ListaCompras extends javax.swing.JFrame {
+
+    //Logged User
+    private final Usuario user;
+    private final JFrame parentPanel;
 
     /**
      * Creates new form ListaCompras
+     *
+     * @param user - Current logged user
+     * @param parentPanel - Parent panel to open again after the disposal of
+     * this one
      */
-    public ListaCompras() {
+    public ListaCompras(Usuario user, JFrame parentPanel) {
         initComponents();
+        this.user = user;
+        this.parentPanel = parentPanel;
+        jButtonSearchUser.setVisible(user.hasRole(Roles.moderador));
     }
 
     /**
@@ -27,19 +37,96 @@ public class ListaCompras extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        jButtonNewUser = new javax.swing.JButton();
+        jButtonSearchUser = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
+
+        jButtonNewUser.setText("Novo Usuário");
+        jButtonNewUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNewUserActionPerformed(evt);
+            }
+        });
+
+        jButtonSearchUser.setText("Consultar Usuários");
+        jButtonSearchUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchUserActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Lista de compras do próprio usuário");
+
+        jLabel2.setText("Tela ainda não finalizada");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(96, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel2)))
+                        .addGap(108, 108, 108))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonNewUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSearchUser)
+                        .addGap(78, 78, 78))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonNewUser)
+                    .addComponent(jButtonSearchUser))
+                .addGap(56, 56, 56)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(0, 143, Short.MAX_VALUE))
         );
+
+        pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        parentPanel.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
+
+    private void jButtonNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewUserActionPerformed
+        new CadastrarUsuarios(user, this).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonNewUserActionPerformed
+
+    private void jButtonSearchUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchUserActionPerformed
+        new ConsultarUsuarios(user, this).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonSearchUserActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonNewUser;
+    private javax.swing.JButton jButtonSearchUser;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
 }
