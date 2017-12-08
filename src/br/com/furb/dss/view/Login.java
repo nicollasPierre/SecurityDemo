@@ -18,16 +18,28 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
     UsuarioController usuarioController;
+
     /**
      * Creates new form Teste
      */
     public Login() {
         initComponents();
-         usuarioController = UsuarioController.getInstance();
-        Usuario teste = new Usuario("paulo", "123", Roles.admin);
-        usuarioController.addUsuario(teste);
+        usuarioController = UsuarioController.getInstance();
+
+        Usuario admin = new Usuario("paulo", "123", Roles.usuarioNormal);
+        admin.addRole(Roles.moderador);
+        admin.addRole(Roles.admin);
+
+        Usuario mod = new Usuario("daniel", "123", Roles.usuarioNormal);
+        mod.addRole(Roles.moderador);
+
+        Usuario normal = new Usuario("nicollas", "123", Roles.usuarioNormal);
+
+        usuarioController.addUsuario(admin);
+        usuarioController.addUsuario(mod);
+        usuarioController.addUsuario(normal);
         UsuarioDao uDao = UsuarioDao.getInstance();
-        teste.setId(1);
+        admin.setId(1);
         //uDao.persist(teste);
     }
 
@@ -47,6 +59,9 @@ public class Login extends javax.swing.JFrame {
         jTextFieldLogin = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextFieldSenha = new javax.swing.JTextField();
+        jButtonAdmin = new javax.swing.JButton();
+        jButtonMod = new javax.swing.JButton();
+        jButtonNormal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -68,16 +83,31 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setText("Senha:");
 
+        jButtonAdmin.setText("Admin");
+        jButtonAdmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAdminActionPerformed(evt);
+            }
+        });
+
+        jButtonMod.setText("Mod");
+        jButtonMod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonModActionPerformed(evt);
+            }
+        });
+
+        jButtonNormal.setText("Normal");
+        jButtonNormal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonNormalActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(142, Short.MAX_VALUE)
-                .addComponent(jButtonLogin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonNewUser)
-                .addGap(125, 125, 125))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(61, 61, 61)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -88,6 +118,21 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(jTextFieldLogin)
                     .addComponent(jTextFieldSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(142, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonLogin)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonNewUser)
+                        .addGap(125, 125, 125))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonNormal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonMod)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAdmin)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,7 +149,12 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonLogin)
                     .addComponent(jButtonNewUser))
-                .addGap(42, 42, 42))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAdmin)
+                    .addComponent(jButtonMod)
+                    .addComponent(jButtonNormal))
+                .addGap(8, 8, 8))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -121,6 +171,7 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
@@ -131,7 +182,7 @@ public class Login extends javax.swing.JFrame {
             usuarioController.setUsuarioLogado(usuLogin);
 
             String mensagem = "Bem vindo, " + usuarioController.getUsuarioLogado().getLogin();
-            mensagem += "Você é: ";
+            mensagem += "\nVocê é: ";
 
             Roles roleUsu = Roles.usuarioNormal;
             for (Roles role : usuarioController.getUsuarioLogado().getRoles()) {
@@ -148,13 +199,34 @@ public class Login extends javax.swing.JFrame {
             }
 
             mensagem += roleUsu.toString();
-            JOptionPane.showMessageDialog(null, mensagem);
+            //JOptionPane.showMessageDialog(null, mensagem);
+
+            new ListaCompras(usuarioController.getUsuarioLogado(), this).setVisible(true);
+            this.setVisible(false);
         }
     }//GEN-LAST:event_jButtonLoginActionPerformed
 
     private void jButtonNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewUserActionPerformed
-        // TODO add your handling code here:
+        new CadastrarUsuarios(this).setVisible(true);
     }//GEN-LAST:event_jButtonNewUserActionPerformed
+
+    private void jButtonAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdminActionPerformed
+        Usuario usuLogin = usuarioController.login("paulo", "123");
+        new ListaCompras(usuLogin, this).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonAdminActionPerformed
+
+    private void jButtonModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModActionPerformed
+        Usuario usuLogin = usuarioController.login("daniel", "123");
+        new ListaCompras(usuLogin, this).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonModActionPerformed
+
+    private void jButtonNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNormalActionPerformed
+        Usuario usuLogin = usuarioController.login("nicollas", "123");
+        new ListaCompras(usuLogin, this).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButtonNormalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,7 +239,7 @@ public class Login extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -193,8 +265,11 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonAdmin;
     private javax.swing.JButton jButtonLogin;
+    private javax.swing.JButton jButtonMod;
     private javax.swing.JButton jButtonNewUser;
+    private javax.swing.JButton jButtonNormal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
