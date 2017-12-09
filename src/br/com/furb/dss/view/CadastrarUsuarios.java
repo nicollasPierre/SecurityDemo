@@ -1,7 +1,10 @@
 package br.com.furb.dss.view;
 
+import br.com.furb.dss.controller.UsuarioDao;
 import br.com.furb.dss.model.Roles;
 import br.com.furb.dss.model.Usuario;
+import br.com.furb.dss.utils.Hash;
+import br.com.furb.dss.utils.Salt;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -56,16 +59,16 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroupUserType = new javax.swing.ButtonGroup();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldUser = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        jPasswordFieldSenha = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        jPasswordFieldConfirmSenha = new javax.swing.JPasswordField();
         jRadioNormal = new javax.swing.JRadioButton();
         jRadioModerador = new javax.swing.JRadioButton();
         jRadioAdmin = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonCriar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -90,10 +93,10 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
         buttonGroupUserType.add(jRadioAdmin);
         jRadioAdmin.setText("Admin");
 
-        jButton1.setText("Criar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCriar.setText("Criar");
+        jButtonCriar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonCriarActionPerformed(evt);
             }
         });
 
@@ -123,10 +126,10 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jButton2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPasswordField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButtonCriar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPasswordFieldSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextFieldUser, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPasswordFieldConfirmSenha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -134,25 +137,25 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordFieldSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPasswordFieldConfirmSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioNormal)
+                .addComponent(jRadioNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioModerador)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioAdmin)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(jButtonCriar)
                     .addComponent(jButton2))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -165,9 +168,27 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
         parentPanel.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JOptionPane.showMessageDialog(this, "Função não implementada");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonCriarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCriarActionPerformed
+        //JOptionPane.showMessageDialog(this, "Função não implementada");
+        try{
+        if(jPasswordFieldSenha.getPassword() != null && jPasswordFieldConfirmSenha.getPassword() != null 
+                && new String(jPasswordFieldSenha.getPassword()).equals(new String(jPasswordFieldConfirmSenha.getPassword()))){
+            
+            String salt = Salt.geraSalt();
+            Usuario novoUsuario = new Usuario(jTextFieldUser.getText(), 
+                    Hash.geraHash(jPasswordFieldSenha.getPassword().toString(),salt), 
+                    Roles.usuarioNormal);
+            novoUsuario.setSalt(salt);
+            UsuarioDao.getInstance().persist(novoUsuario);
+            JOptionPane.showMessageDialog(this, "Usuario Normal Cadastrado com sucesso");
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Os campos Senha e confirma senha estão incorretos");
+        }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Falha ao Cadastrar novo usuario: "+e.getMessage());
+        }
+    }//GEN-LAST:event_jButtonCriarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         parentPanel.setVisible(true);
@@ -177,16 +198,16 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupUserType;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCriar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JPasswordField jPasswordFieldConfirmSenha;
+    private javax.swing.JPasswordField jPasswordFieldSenha;
     private javax.swing.JRadioButton jRadioAdmin;
     private javax.swing.JRadioButton jRadioModerador;
     private javax.swing.JRadioButton jRadioNormal;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldUser;
     // End of variables declaration//GEN-END:variables
 }

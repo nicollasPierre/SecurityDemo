@@ -42,8 +42,9 @@ public class ListaCompras {
         return lista;
     }
 
-    public void setLista(String lista) {
+    public String setLista(String lista) {
         this.lista = lista;
+        return lista;
     }
 
     public Usuario getUsuario() {

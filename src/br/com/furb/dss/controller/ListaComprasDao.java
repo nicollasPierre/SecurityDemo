@@ -5,7 +5,7 @@
  */
 package br.com.furb.dss.controller;
 
-import br.com.furb.dss.model.Usuario;
+import br.com.furb.dss.model.ListaCompras;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,20 +15,19 @@ import javax.persistence.Persistence;
  *
  * @author nicol
  */
-public class UsuarioDao {
-
-    private static UsuarioDao instance;
+public class ListaComprasDao {
+    private static ListaComprasDao instance;
     protected EntityManager entityManager;
 
-    public static UsuarioDao getInstance() {
+    public static ListaComprasDao getInstance() {
         if (instance == null) {
-            instance = new UsuarioDao();
+            instance = new ListaComprasDao();
         }
 
         return instance;
     }
 
-    private UsuarioDao() {
+    private ListaComprasDao() {
         entityManager = getEntityManager();
     }
 
@@ -41,23 +40,19 @@ public class UsuarioDao {
         return entityManager;
     }
 
-    public Usuario getById(final int id) {
-        return entityManager.find(Usuario.class, id);
+    public ListaCompras getById(final int id) {
+        return entityManager.find(ListaCompras.class, id);
     }
 
     @SuppressWarnings("unchecked")
-    public List<Usuario> findAll() {
-        return entityManager.createQuery("FROM " + Usuario.class.getName()).getResultList();
+    public List<ListaCompras> findAll() {
+        return entityManager.createQuery("FROM " + ListaCompras.class.getName()).getResultList();
     }
 
-    public List<Usuario> findByLogin(String login) {
-        return entityManager.createQuery("FROM " + Usuario.class.getName() + " WHERE login like \'" + login + "\'").getResultList();
-    }
-
-    public void persist(Usuario usuario) {
+    public void persist(ListaCompras listaCompras) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(usuario);
+            entityManager.persist(listaCompras);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -65,10 +60,10 @@ public class UsuarioDao {
         }
     }
 
-    public void merge(Usuario uUsuario) {
+    public void merge(ListaCompras listaCompras) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.merge(uUsuario);
+            entityManager.merge(listaCompras);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -76,11 +71,11 @@ public class UsuarioDao {
         }
     }
 
-    public void remove(Usuario usuario) {
+    public void remove(ListaCompras listaCompras) {
         try {
             entityManager.getTransaction().begin();
-            usuario = entityManager.find(Usuario.class, usuario.getId());
-            entityManager.remove(usuario);
+            listaCompras = entityManager.find(ListaCompras.class, listaCompras.getId());
+            entityManager.remove(listaCompras);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -90,7 +85,7 @@ public class UsuarioDao {
 
     public void removeById(final int id) {
         try {
-            Usuario cliente = getById(id);
+            ListaCompras cliente = getById(id);
             remove(cliente);
         } catch (Exception ex) {
             ex.printStackTrace();

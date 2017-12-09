@@ -28,6 +28,7 @@ public class Usuario {
     private String hash;
     @Column
     private String salt;
+    @Column
     private LinkedList<Roles> roles;
 
     public Usuario(String login, String hash, Roles role) {

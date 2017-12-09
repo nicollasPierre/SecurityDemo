@@ -9,7 +9,6 @@ import br.com.furb.dss.model.Usuario;
 import br.com.furb.dss.utils.Hash;
 import br.com.furb.dss.utils.Salt;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -54,6 +53,16 @@ public class UsuarioController {
         for (Usuario usu : usuarios) {
             if (usu.getLogin().equals(login) && usu.getSenha().equals(Hash.geraHash(senhaDigitada, usu.getSalt() ))) {
                 System.out.println("Senha: " + usu.getSenha() + "\nIgual à:\n" + Hash.geraHash(senhaDigitada, usu.getSalt()));
+                return usu;
+            }
+        }
+        return null;
+    }
+    
+    public Usuario login(Usuario usuario) {
+        for (Usuario usu : UsuarioDao.getInstance().findByLogin(usuario.getLogin())) {
+            if (usu.getLogin().equals(usuario.getLogin()) && usu.getSenha().equals(Hash.geraHash(usuario.getSenha(), usu.getSalt() ))) {
+                System.out.println("Senha: " + usu.getSenha() + "\nIgual à:\n" + Hash.geraHash(usuario.getSenha(), usu.getSalt()));
                 return usu;
             }
         }
