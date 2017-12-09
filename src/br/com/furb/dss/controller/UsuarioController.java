@@ -7,7 +7,9 @@ package br.com.furb.dss.controller;
 
 import br.com.furb.dss.model.Usuario;
 import br.com.furb.dss.utils.Hash;
+import br.com.furb.dss.utils.Salt;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,17 +40,20 @@ public class UsuarioController {
         usuarios = new ArrayList<>();
     }
 
-    public void addUsuario(Usuario novoUsuario) {
+    public void addUsuarioGeraSaltHashSenha(Usuario novoUsuario) {
+        novoUsuario.setSalt(Salt.geraSalt());
+        novoUsuario.setSenha(Hash.geraHash(novoUsuario.getSenha(), novoUsuario.getSalt()));
         usuarios.add(novoUsuario);
     }
-
+    
     public void removeUsuario(Usuario usuario) {
         usuarios.remove(usuario);
     }
 
-    public Usuario login(String usuario, String senha) {
+    public Usuario login(String login, String senhaDigitada) {
         for (Usuario usu : usuarios) {
-            if (usu.getLogin().equals(usuario) && usu.getSenha().equals(Hash.geraHash(senha + usu.getSalt() ))) {
+            if (usu.getLogin().equals(login) && usu.getSenha().equals(Hash.geraHash(senhaDigitada, usu.getSalt() ))) {
+                System.out.println("Senha: " + usu.getSenha() + "\nIgual à:\n" + Hash.geraHash(senhaDigitada, usu.getSalt()));
                 return usu;
             }
         }
