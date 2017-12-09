@@ -35,9 +35,9 @@ public class Login extends javax.swing.JFrame {
 
         Usuario normal = new Usuario("nicollas", "123", Roles.usuarioNormal);
 
-        usuarioController.addUsuario(admin);
-        usuarioController.addUsuario(mod);
-        usuarioController.addUsuario(normal);
+        usuarioController.addUsuarioGeraSaltHashSenha(admin);
+        usuarioController.addUsuarioGeraSaltHashSenha(mod);
+        usuarioController.addUsuarioGeraSaltHashSenha(normal);
         UsuarioDao uDao = UsuarioDao.getInstance();
         admin.setId(1);
         //uDao.persist(teste);
@@ -199,7 +199,7 @@ public class Login extends javax.swing.JFrame {
             }
 
             mensagem += roleUsu.toString();
-            //JOptionPane.showMessageDialog(null, mensagem);
+            JOptionPane.showMessageDialog(null, mensagem);
 
             new ListaCompras(usuarioController.getUsuarioLogado(), this).setVisible(true);
             this.setVisible(false);

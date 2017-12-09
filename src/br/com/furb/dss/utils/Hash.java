@@ -5,14 +5,23 @@
  */
 package br.com.furb.dss.utils;
 
+import java.security.MessageDigest;
+
 /**
  *
  * @author nicol
  */
 public class Hash {
     
-    public static String geraHash(String senhaPlano){
-        Math.random();
-        return senhaPlano; 
+    public static String geraHash(String senha, String salt) {
+        String senhaSalt = senha + salt;
+        
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(senhaSalt.getBytes());
+            return new String(md.digest());
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
