@@ -33,30 +33,36 @@ public class ListaCompras {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="usuario_fk")
     private Usuario usuario;
-    @Column
-    private SecretKey chaveSimetrica;
-    @Column
-    private PrivateKey chavePrivada;
-    @Column
-    private PublicKey chavePublica;
-    @Column
-    private String assinatura;
-    @Column
-    private IvParameterSpec vetorInicializacao;
+    @Column(length = 65535)
+    private byte[] chaveSimetrica = new byte[0];
+    @Column(length = 65535)
+    private byte[] chavePrivada = new byte[0];
+    @Column(length = 65535)
+    private byte[] chavePublica = new byte[0];
+    @Column(length = 65535)
+    private byte[] assinatura = new byte[0];
+    @Column(length = 65535)
+    private byte[] vetorInicializacao = new byte[0];
 
-    public String getAssinatura() {
+    public ListaCompras(int id, String lista, Usuario usuario) {
+        this.id = id;
+        this.lista = lista;
+        this.usuario = usuario;
+    }
+
+    public byte[] getAssinatura() {
         return assinatura;
     }
 
-    public void setAssinatura(String assinatura) {
+    public void setAssinatura(byte[] assinatura) {
         this.assinatura = assinatura;
     }
-
-    public IvParameterSpec getVetorInicializacao() {
+    
+    public byte[] getVetorInicializacao() {
         return vetorInicializacao;
     }
 
-    public void setVetorInicializacao(IvParameterSpec vetorInicializacao) {
+    public void setVetorInicializacao(byte[] vetorInicializacao) {
         this.vetorInicializacao = vetorInicializacao;
     }
     
@@ -85,30 +91,30 @@ public class ListaCompras {
         this.usuario = usuario;
     }
 
-    public SecretKey getChaveSimetrica() {
+    public byte[] getChaveSimetrica() {
         return chaveSimetrica;
     }
 
-    public void setChaveSimetrica(SecretKey chaveSimetrica) {
+    public void setChaveSimetrica(byte[] chaveSimetrica) {
         this.chaveSimetrica = chaveSimetrica;
     }
 
-    public PrivateKey getChavePrivada() {
+    public byte[] getChavePrivada() {
         return chavePrivada;
     }
 
-    public void setChavePrivada(PrivateKey chavePrivada) {
+    public void setChavePrivada(byte[] chavePrivada) {
         this.chavePrivada = chavePrivada;
     }
 
-    public PublicKey getChavePublica() {
+    public byte[] getChavePublica() {
         return chavePublica;
     }
 
-    public void setChavePublica(PublicKey chavePublica) {
+    public void setChavePublica(byte[] chavePublica) {
         this.chavePublica = chavePublica;
     }
-
+    
     public ListaCompras(String lista, Usuario usuario) {
         this.lista = lista;
         this.usuario = usuario;

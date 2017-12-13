@@ -10,6 +10,7 @@ import br.com.furb.dss.model.Usuario;
 import br.com.furb.dss.utils.AES;
 import br.com.furb.dss.utils.Hash;
 import br.com.furb.dss.utils.RSA;
+import java.util.Base64;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -46,8 +47,9 @@ public class ListaComprasDao {
         return entityManager;
     }
 
-    public ListaCompras getById(final int id) throws Exception {
-        ListaCompras lista = entityManager.find(ListaCompras.class, id);
+    public ListaCompras getById(int id) throws Exception {
+        ListaCompras lista = null;
+        lista = entityManager.find(ListaCompras.class, id);
 
         if (verificaLista(lista)) {
             descriptografaAES(lista);
@@ -61,7 +63,11 @@ public class ListaComprasDao {
     public List<ListaCompras> getByUser(Usuario usuario) throws Exception {
         List<ListaCompras> lista = entityManager.createQuery("FROM " + Usuario.class.getName() + " WHERE usuario = " + usuario.getId()).getResultList();
         for (ListaCompras listaCompra : lista) {
-            //listaCompra.setLista(descriptografaAES(listaCompra.getLista()));
+            if (verificaLista(listaCompra)) {
+                listaCompra.setLista(descriptografaAES(listaCompra));
+            } else {
+                JOptionPane.showConfirmDialog(null, "Alguém modificou a lista" + listaCompra.getId() + "!!!", "Dado não integro", JOptionPane.WARNING_MESSAGE);
+            }
         }
         return lista;
     }
@@ -70,7 +76,11 @@ public class ListaComprasDao {
     public List<ListaCompras> findAll() throws Exception {
         List<ListaCompras> lista = entityManager.createQuery("FROM " + ListaCompras.class.getName()).getResultList();
         for (ListaCompras listaCompra : lista) {
-            //listaCompra.setLista(descriptografaAES(listaCompra.getLista()));
+            if (verificaLista(listaCompra)) {
+                listaCompra.setLista(descriptografaAES(listaCompra));
+            } else {
+                JOptionPane.showConfirmDialog(null, "Alguém modificou a lista" + listaCompra.getId() + "!!!", "Dado não integro", JOptionPane.WARNING_MESSAGE);
+            }
         }
 
         return lista;
@@ -125,9 +135,10 @@ public class ListaComprasDao {
 
     private String criptografaLista(ListaCompras lista) throws Exception {
         AES aes = new AES(lista.getChaveSimetrica());
-        String list = new String(aes.criptografaComAES(lista.getLista()));
-        lista.setChaveSimetrica(aes.getChave());
-        lista.setVetorInicializacao(aes.getVi());
+        String novaListaBase64 = Base64.getEncoder().encodeToString(aes.criptografaComAES(lista.getLista()));
+        String list = new String(novaListaBase64);
+        lista.setChaveSimetrica(aes.getChave().getEncoded());
+        lista.setVetorInicializacao(aes.getVi().getIV());
         lista.setLista(list);
         return lista.getLista();
     }
@@ -135,17 +146,20 @@ public class ListaComprasDao {
     private void assinaLista(ListaCompras lista) throws Exception {
         String hash = Hash.geraHash(lista.getLista());
         byte[] assinatura = RSA.assinarMensagem(lista.getChavePrivada(), hash.getBytes());
-        lista.setAssinatura(new String(assinatura));
+        lista.setAssinatura(assinatura);
+        RSA rsa = RSA.getInstance();
+        lista.setChavePrivada(rsa.getChavePriv().getEncoded());
+        lista.setChavePublica(rsa.getChavePubli().getEncoded());
     }
 
     private boolean verificaLista(ListaCompras lista) throws Exception {
         String hash = Hash.geraHash(lista.getLista());
-        return RSA.verificarMensagem(lista.getChavePublica(), lista.getAssinatura().getBytes(), hash);
+        return RSA.verificarMensagem(lista.getChavePublica(), lista.getAssinatura(), hash);
     }
 
     private String descriptografaAES(ListaCompras lista) throws Exception {
         AES aes = new AES(lista.getChaveSimetrica(), lista.getVetorInicializacao());
-        lista.setLista(new String(aes.descriptografaComAES(lista.getLista().getBytes())));
+        lista.setLista(new String(aes.descriptografaComAES(lista.getLista())));
         return lista.getLista();
     }
 }

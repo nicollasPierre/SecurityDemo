@@ -1,5 +1,7 @@
 package br.com.furb.dss.view;
 
+import br.com.furb.dss.controller.ListaComprasDao;
+import br.com.furb.dss.controller.UsuarioDao;
 import br.com.furb.dss.model.Roles;
 import br.com.furb.dss.model.Usuario;
 import javax.swing.JFrame;
@@ -41,6 +43,8 @@ public class ListaCompras extends javax.swing.JFrame {
         jButtonSearchUser = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaShopList = new javax.swing.JTextArea();
+        jButtonTesteSalvar = new javax.swing.JButton();
+        jButtonTesteCarregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -67,30 +71,53 @@ public class ListaCompras extends javax.swing.JFrame {
         jTextAreaShopList.setRows(5);
         jScrollPane1.setViewportView(jTextAreaShopList);
 
+        jButtonTesteSalvar.setText("Salva texto");
+        jButtonTesteSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTesteSalvarActionPerformed(evt);
+            }
+        });
+
+        jButtonTesteCarregar.setText("Carrega texto");
+        jButtonTesteCarregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTesteCarregarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(96, Short.MAX_VALUE)
-                .addComponent(jButtonNewUser)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSearchUser)
-                .addGap(78, 78, 78))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButtonTesteSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonNewUser)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSearchUser)
+                        .addGap(81, 81, 81))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonTesteCarregar)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(15, 15, 15)
+                .addComponent(jButtonTesteCarregar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNewUser)
-                    .addComponent(jButtonSearchUser))
+                    .addComponent(jButtonSearchUser)
+                    .addComponent(jButtonTesteSalvar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -112,6 +139,27 @@ public class ListaCompras extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jButtonSearchUserActionPerformed
 
+    private void jButtonTesteSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTesteSalvarActionPerformed
+        ListaComprasDao lisComprasDao = ListaComprasDao.getInstance();
+        Usuario usuario;
+        usuario = UsuarioDao.getInstance().getById(1);
+        br.com.furb.dss.model.ListaCompras lisCompras = new br.com.furb.dss.model.ListaCompras("", usuario);
+        lisCompras.setLista(jTextAreaShopList.getText());
+        lisComprasDao.persist(lisCompras);
+                
+    }//GEN-LAST:event_jButtonTesteSalvarActionPerformed
+
+    private void jButtonTesteCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTesteCarregarActionPerformed
+        ListaComprasDao lisComprasDao = ListaComprasDao.getInstance();
+        try{
+        br.com.furb.dss.model.ListaCompras listaCompras = lisComprasDao.getById(1);
+        jTextAreaShopList.setText(listaCompras.getLista());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+    }//GEN-LAST:event_jButtonTesteCarregarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -119,6 +167,8 @@ public class ListaCompras extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonNewUser;
     private javax.swing.JButton jButtonSearchUser;
+    private javax.swing.JButton jButtonTesteCarregar;
+    private javax.swing.JButton jButtonTesteSalvar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextAreaShopList;
     // End of variables declaration//GEN-END:variables

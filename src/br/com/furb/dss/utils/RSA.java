@@ -5,11 +5,14 @@
  */
 package br.com.furb.dss.utils;
 
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 
@@ -27,9 +30,11 @@ public class RSA {
     private RSA() {
     }
 
-    public static RSA getInstance(){
-        return instance == null ? new RSA() : instance;
+    public static RSA getInstance() {
+        
+        return instance == null ? (instance = new RSA()) : instance;
     }
+
     public PrivateKey getChavePriv() {
         return chavePriv;
     }
@@ -53,7 +58,7 @@ public class RSA {
     public void setVi(IvParameterSpec vi) {
         this.vi = vi;
     }
-    
+
     public byte[] criptografaComRSA(String mensagem) throws Exception {
         // Passo 1
         KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("RSA");
@@ -87,7 +92,7 @@ public class RSA {
         byte[] descriptografada = cipherPriv.doFinal(textoCifrado);
         return descriptografada;
     }
-    
+
     private byte[] descriptografaComRSA(byte[] textoCifrado)
             throws Exception {
 
@@ -95,6 +100,13 @@ public class RSA {
     }
 
     public static byte[] assinarMensagem(PrivateKey chavePriv, byte[] mensagem) throws Exception {
+        KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("RSA");
+        KeyPair par = keyGenerator.generateKeyPair();
+        // Passo 2
+        if (chavePriv == null) {
+            chavePriv = par.getPrivate();
+            getInstance().chavePubli = par.getPublic();
+        }
 
         Signature sign = Signature.getInstance("SHA256withRSA");
         sign.initSign(chavePriv);
@@ -103,9 +115,36 @@ public class RSA {
 
     }
 
+    public static byte[] assinarMensagem(byte[] chavePriv, byte[] mensagem) throws Exception {
+        RSA rsa = getInstance();
+        // Passo 2
+        System.out.println("Tamanho Privada: "+chavePriv.length);
+        if (chavePriv.length == 0) {
+            KeyPairGenerator keyGenerator = KeyPairGenerator.getInstance("RSA");
+            KeyPair par = keyGenerator.generateKeyPair();
+            rsa.chavePriv = par.getPrivate();
+            rsa.chavePubli = par.getPublic();
+        } else {
+            rsa.chavePriv = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(chavePriv));
+        }
+        Signature sign = Signature.getInstance("SHA256withRSA");
+        sign.initSign(rsa.chavePriv);
+        sign.update(mensagem);
+        return sign.sign();
+
+    }
+
     public static boolean verificarMensagem(PublicKey chavePubli, byte[] assinado, String mensagem) throws Exception {
         Signature verifica = Signature.getInstance("SHA256withRSA");
         verifica.initVerify(chavePubli);
+        verifica.update(mensagem.getBytes());
+        return verifica.verify(assinado);
+    }
+
+    public static boolean verificarMensagem(byte[] chavePubli, byte[] assinado, String mensagem) throws Exception {
+        Signature verifica = Signature.getInstance("SHA256withRSA");
+        getInstance().chavePubli = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(chavePubli));
+        verifica.initVerify(getInstance().chavePubli);
         verifica.update(mensagem.getBytes());
         return verifica.verify(assinado);
     }

@@ -13,12 +13,13 @@ import br.com.furb.dss.model.ListaCompras;
  */
 public class ListaComprasController {
     private ListaCompras lista;
+    private ListaComprasController instance;
 
-    public ListaComprasController(ListaCompras lista) {
+    protected ListaComprasController(ListaCompras lista) {
         this.lista = lista;
     }
 
-    public ListaCompras getLista() {
+    protected ListaCompras getLista() {
         return lista;
     }
 

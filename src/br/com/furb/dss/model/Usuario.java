@@ -30,6 +30,14 @@ public class Usuario {
     private String salt;
     @Column
     private LinkedList<Roles> roles;
+
+    public Usuario(int id, String login, String hash, String salt, LinkedList<Roles> roles) {
+        this.id = id;
+        this.login = login;
+        this.hash = hash;
+        this.salt = salt;
+        this.roles = roles;
+    }
     
 
     public Usuario(String login, String hash, Roles role) {
