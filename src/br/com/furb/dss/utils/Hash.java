@@ -12,10 +12,22 @@ import java.security.MessageDigest;
  * @author nicol
  */
 public class Hash {
-    
+
     public static String geraHash(String senha, String salt) {
         String senhaSalt = senha + salt;
-        
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(senhaSalt.getBytes());
+            return new String(md.digest());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String geraHash(String mensagem) {
+        String senhaSalt = mensagem;
+
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(senhaSalt.getBytes());

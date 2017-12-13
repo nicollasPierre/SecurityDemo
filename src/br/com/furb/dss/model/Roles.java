@@ -10,7 +10,11 @@ package br.com.furb.dss.model;
  * @author nicol
  */
 public enum Roles {
-    usuarioNormal,
-    moderador,
-    admin;
+    usuarioNormal(0),
+    moderador(1),
+    admin(2);
+    
+    private int id;
+    private Roles(int id) { this.id = id; }
+    public int getValue() { return id; }
 }

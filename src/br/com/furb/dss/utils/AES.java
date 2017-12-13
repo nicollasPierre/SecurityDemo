@@ -17,10 +17,36 @@ import javax.crypto.spec.IvParameterSpec;
  */
 public class AES {
 
-    private static SecretKey chave = null;
-    private static IvParameterSpec vi = null;
+    private SecretKey chave = null;
+    private IvParameterSpec vi = null;
 
-    public static byte[] criptografaComAES(String mensagem) throws Exception {
+    public AES(SecretKey simetrica, IvParameterSpec vi) {
+        this.chave = simetrica;
+        this.vi = vi;
+    }
+
+    public AES(SecretKey simetrica) {
+        this.chave = simetrica;
+    }
+
+    
+    public SecretKey getChave() {
+        return chave;
+    }
+
+    public void setChave(SecretKey chave) {
+        this.chave = chave;
+    }
+
+    public IvParameterSpec getVi() {
+        return vi;
+    }
+
+    public void setVi(IvParameterSpec vi) {
+        this.vi = vi;
+    }
+    
+    public byte[] criptografaComAES(String mensagem) throws Exception {
         //Passo 1
         KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
         keyGenerator.init(128);
@@ -47,13 +73,13 @@ public class AES {
         return cifrado;
     }
 
-    private static byte[] descriptografaComAES(byte[] textoCifrado, SecretKey chave, IvParameterSpec vi) throws Exception {
+    public byte[] descriptografaComAES(byte[] textoCifrado, SecretKey chave, IvParameterSpec vi) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, chave, vi);
         return cipher.doFinal(textoCifrado);
     }
     
-    private static byte[] descriptografaComAES(byte[] textoCifrado) throws Exception {
+    public byte[] descriptografaComAES(byte[] textoCifrado) throws Exception {
         return descriptografaComAES( textoCifrado, chave, vi);
     }
 }

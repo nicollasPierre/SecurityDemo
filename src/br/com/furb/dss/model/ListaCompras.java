@@ -5,6 +5,10 @@
  */
 package br.com.furb.dss.model;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +33,33 @@ public class ListaCompras {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="usuario_fk")
     private Usuario usuario;
+    @Column
+    private SecretKey chaveSimetrica;
+    @Column
+    private PrivateKey chavePrivada;
+    @Column
+    private PublicKey chavePublica;
+    @Column
+    private String assinatura;
+    @Column
+    private IvParameterSpec vetorInicializacao;
 
+    public String getAssinatura() {
+        return assinatura;
+    }
+
+    public void setAssinatura(String assinatura) {
+        this.assinatura = assinatura;
+    }
+
+    public IvParameterSpec getVetorInicializacao() {
+        return vetorInicializacao;
+    }
+
+    public void setVetorInicializacao(IvParameterSpec vetorInicializacao) {
+        this.vetorInicializacao = vetorInicializacao;
+    }
+    
     public int getId() {
         return id;
     }
@@ -53,6 +83,30 @@ public class ListaCompras {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public SecretKey getChaveSimetrica() {
+        return chaveSimetrica;
+    }
+
+    public void setChaveSimetrica(SecretKey chaveSimetrica) {
+        this.chaveSimetrica = chaveSimetrica;
+    }
+
+    public PrivateKey getChavePrivada() {
+        return chavePrivada;
+    }
+
+    public void setChavePrivada(PrivateKey chavePrivada) {
+        this.chavePrivada = chavePrivada;
+    }
+
+    public PublicKey getChavePublica() {
+        return chavePublica;
+    }
+
+    public void setChavePublica(PublicKey chavePublica) {
+        this.chavePublica = chavePublica;
     }
 
     public ListaCompras(String lista, Usuario usuario) {

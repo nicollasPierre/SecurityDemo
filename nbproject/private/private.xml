@@ -4,15 +4,19 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/view/Login.java</file>
-            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/controller/UsuarioController.java</file>
             <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/utils/Hash.java</file>
-            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/model/Roles.java</file>
-            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/view/ListaCompras.java</file>
-            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/controller/UsuarioDao.java</file>
             <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/view/CadastrarUsuarios.java</file>
-            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/META-INF/persistence.xml</file>
             <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/model/ListaCompras.java</file>
             <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/model/Usuario.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/controller/ListaComprasController.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/controller/UsuarioController.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/view/ConsultarUsuarios.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/model/Roles.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/controller/ListaComprasDao.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/view/ListaCompras.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/controller/UsuarioDao.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/utils/AES.java</file>
+            <file>file:/C:/Users/nicol/Documents/NetBeansProjects/SecurityDemo/src/br/com/furb/dss/utils/RSA.java</file>
         </group>
     </open-files>
 </project-private>

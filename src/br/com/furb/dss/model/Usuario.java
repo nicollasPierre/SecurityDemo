@@ -30,6 +30,7 @@ public class Usuario {
     private String salt;
     @Column
     private LinkedList<Roles> roles;
+    
 
     public Usuario(String login, String hash, Roles role) {
         this.login = login;
@@ -45,7 +46,7 @@ public class Usuario {
     public void setHash(String hash) {
         this.hash = hash;
     }
-
+    
     public int getId() {
         return id;
     }
