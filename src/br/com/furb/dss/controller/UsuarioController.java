@@ -50,13 +50,7 @@ public class UsuarioController {
     }
 
     public Usuario login(String login, String senhaDigitada) {
-        for (Usuario usu : usuarios) {
-            if (usu.getLogin().equals(login) && usu.getSenha().equals(Hash.geraHash(senhaDigitada, usu.getSalt() ))) {
-                System.out.println("Senha: " + usu.getSenha() + "\nIgual à:\n" + Hash.geraHash(senhaDigitada, usu.getSalt()));
-                return usu;
-            }
-        }
-        return null;
+        UsuarioDao usuDao = UsuarioDao.getInstance();
     }
     
     public Usuario login(Usuario usuario) {

@@ -14,7 +14,7 @@ import java.util.Random;
 public class Salt {
     
     public static String geraSalt(){
-        byte[] salt = new byte[15];
+        byte[] salt = new byte[50];
         Random r = new Random();
         r.nextBytes(salt);
         return new String(salt);

@@ -51,8 +51,12 @@ public class UsuarioDao {
     }
 
     public List<Usuario> findByLogin(String login) {
-        return entityManager.createQuery("FROM " + Usuario.class.getName() + " WHERE login like \'" + login + "\'").getResultList();
+        return entityManager.createQuery("FROM " + Usuario.class.getName() + " WHERE login LIKE \'" + login + "\'").getResultList();
     }
+    
+    public List<Usuario> findByLogin(String login, String senhaHash) {
+        return entityManager.createQuery("FROM " + Usuario.class.getName() + " WHERE login LIKE \'" + login + "\' LIKE  \'" + senhaHash + "\'").getResultList();
+    }    
 
     public void persist(Usuario usuario) {
         try {
