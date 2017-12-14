@@ -6,6 +6,7 @@
 package br.com.furb.dss.utils;
 
 import java.security.MessageDigest;
+import java.util.Base64;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Hash {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(senhaSalt.getBytes());
-            return new String(md.digest());
+            return Base64.getEncoder().encodeToString(md.digest());
         } catch (Exception e) {
             return null;
         }

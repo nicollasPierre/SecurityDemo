@@ -42,7 +42,7 @@ public class UsuarioController {
         usuarios = new ArrayList<>();
     }
 
-    public void addUsuarioGeraSaltHashSenha(Usuario novoUsuario) {
+    public void addUsuarioGeraSaltHashSenha(Usuario novoUsuario) {        
         novoUsuario.setSalt(Salt.geraSalt());
         novoUsuario.setSenha(Hash.geraHash(novoUsuario.getSenha(), novoUsuario.getSalt()));
         usuarios.add(novoUsuario);
@@ -67,7 +67,7 @@ public class UsuarioController {
             JOptionPane.showMessageDialog(null, "Usuário inexistente");
         } else {
             Usuario logado = usuariosLogados.get(0);
-            if(logado.getSenha().equals(Hash.geraHash(login, logado.getSalt()))){
+            if(logado.getSenha().equals(Hash.geraHash(senhaDigitada, logado.getSalt()))){
                 return logado;
             } else {
                 JOptionPane.showMessageDialog(null, "Login ou senha incorreto.");                

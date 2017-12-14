@@ -59,6 +59,7 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
     private void initComponents() {
 
         buttonGroupUserType = new javax.swing.ButtonGroup();
+        jLabel5 = new javax.swing.JLabel();
         jTextFieldUser = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPasswordFieldSenha = new javax.swing.JPasswordField();
@@ -70,6 +71,12 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
         jRadioAdmin = new javax.swing.JRadioButton();
         jButtonCriar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+
+        jLabel5.setText("A senha deve conter pelo menos:");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -107,29 +114,46 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("A senha deve conter pelo menos:");
+
+        jLabel6.setText("1 letra maiúscula");
+
+        jLabel7.setText("1 letra minúscula");
+
+        jLabel9.setText("1 número");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioAdmin)
-                    .addComponent(jRadioModerador)
-                    .addComponent(jRadioNormal)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(jButton2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jButtonCriar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jPasswordFieldSenha, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextFieldUser, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPasswordFieldConfirmSenha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioAdmin)
+                            .addComponent(jRadioModerador)
+                            .addComponent(jRadioNormal)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jButton2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jButtonCriar, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE))
+                                .addComponent(jPasswordFieldSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextFieldUser, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jPasswordFieldConfirmSenha, javax.swing.GroupLayout.Alignment.LEADING))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel9))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -148,6 +172,14 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jPasswordFieldConfirmSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jRadioNormal, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioModerador)
@@ -157,7 +189,7 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCriar)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
 
         pack();
@@ -171,8 +203,7 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
     private void jButtonCriarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCriarActionPerformed
         //JOptionPane.showMessageDialog(this, "Função não implementada");
         try{
-        if(jPasswordFieldSenha.getPassword() != null && jPasswordFieldConfirmSenha.getPassword() != null 
-                && new String(jPasswordFieldSenha.getPassword()).equals(new String(jPasswordFieldConfirmSenha.getPassword()))){
+        if(validaSenha(new String(jPasswordFieldSenha.getPassword()), new String(jPasswordFieldConfirmSenha.getPassword()))){
             
             String salt = Salt.geraSalt();
             Usuario novoUsuario = new Usuario(jTextFieldUser.getText(), 
@@ -182,14 +213,25 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
             UsuarioDao.getInstance().persist(novoUsuario);
             JOptionPane.showMessageDialog(this, "Usuario Normal Cadastrado com sucesso");
             
-        }else{
-            JOptionPane.showMessageDialog(this, "Os campos Senha e confirma senha estão incorretos");
+            
         }
+        
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Falha ao Cadastrar novo usuario: "+e.getMessage());
         }
     }//GEN-LAST:event_jButtonCriarActionPerformed
 
+    private boolean validaSenha(String senha, String senhaConfirmar){
+         if (senha != null && senha != null 
+                && new String(jPasswordFieldSenha.getPassword()).equals(new String(jPasswordFieldConfirmSenha.getPassword()))){
+             return true;
+             
+         } else {
+             JOptionPane.showMessageDialog(this, "Os campos Senha e confirma senha estão incorretos");
+             return false;
+         }
+    }
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         parentPanel.setVisible(true);
         this.dispose();
@@ -203,6 +245,11 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPasswordField jPasswordFieldConfirmSenha;
     private javax.swing.JPasswordField jPasswordFieldSenha;
     private javax.swing.JRadioButton jRadioAdmin;

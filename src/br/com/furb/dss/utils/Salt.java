@@ -5,6 +5,7 @@
  */
 package br.com.furb.dss.utils;
 
+import java.util.Base64;
 import java.util.Random;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Random;
 public class Salt {
     
     public static String geraSalt(){
-        return new String(geraByteSalt());
+        return Base64.getEncoder().encodeToString(geraByteSalt());
     }
     
     public static byte[] geraByteSalt(){
