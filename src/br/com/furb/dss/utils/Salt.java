@@ -14,9 +14,13 @@ import java.util.Random;
 public class Salt {
     
     public static String geraSalt(){
+        return new String(geraByteSalt());
+    }
+    
+    public static byte[] geraByteSalt(){
         byte[] salt = new byte[50];
         Random r = new Random();
         r.nextBytes(salt);
-        return new String(salt);
+        return salt;
     }
 }
