@@ -62,6 +62,7 @@ public class UsuarioDao {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(usuario);
+            entityManager.flush();
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             ex.printStackTrace();

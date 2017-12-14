@@ -10,6 +10,8 @@ import br.com.furb.dss.model.Usuario;
 import br.com.furb.dss.utils.Hash;
 import br.com.furb.dss.utils.Salt;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -59,9 +61,22 @@ public class UsuarioController {
 //        }
 //        return null;
         
-//        UsuarioDao usu = UsuarioDao.getInstance();
-//        usu.findByLogin(login, Hash.geraHash(senhaDigitada, usu.getSalt()));
-return new Usuario("a", "a", Roles.admin);
+        UsuarioDao usu = UsuarioDao.getInstance();
+        List<Usuario> usuariosLogados = usu.findByLogin(login);
+        if(usuariosLogados.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Usuário inexistente");
+        } else {
+            Usuario logado = usuariosLogados.get(0);
+            if(logado.getSenha().equals(Hash.geraHash(login, logado.getSalt()))){
+                return logado;
+            } else {
+                JOptionPane.showMessageDialog(null, "Login ou senha incorreto.");                
+            }
+        }
+        
+        return null;
+        
+//return new Usuario("a", "a", Roles.admin);
     }
     
     public Usuario login(Usuario usuario) {
