@@ -24,6 +24,25 @@ public class Hash {
             return null;
         }
     }
+    
+    public static byte[] geraHash(byte[] senha, byte[] salt) {
+        byte[] senhaSalt = new byte[senha.length + salt.length];
+        for (int i = 0; i < senhaSalt.length; i++) {
+            if(senha.length < i){
+                senhaSalt[i] = senha[i];
+            }else{
+                senhaSalt[i] = salt[i-senha.length];
+            }
+        }
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(senhaSalt);
+            return md.digest();
+        } catch (Exception e) {
+            return new byte[0];
+        }
+    }
 
     public static String geraHash(String mensagem) {
         String senhaSalt = mensagem;

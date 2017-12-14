@@ -1,6 +1,7 @@
 package br.com.furb.dss.view;
 
 import br.com.furb.dss.controller.ListaComprasDao;
+import br.com.furb.dss.controller.UsuarioController;
 import br.com.furb.dss.controller.UsuarioDao;
 import br.com.furb.dss.model.Roles;
 import br.com.furb.dss.model.Usuario;
@@ -142,7 +143,7 @@ public class ListaCompras extends javax.swing.JFrame {
     private void jButtonTesteSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTesteSalvarActionPerformed
         ListaComprasDao lisComprasDao = ListaComprasDao.getInstance();
         Usuario usuario;
-        usuario = UsuarioDao.getInstance().getById(1);
+        usuario = UsuarioController.getInstance().getUsuarioLogado();
         br.com.furb.dss.model.ListaCompras lisCompras = new br.com.furb.dss.model.ListaCompras("", usuario);
         lisCompras.setLista(jTextAreaShopList.getText());
         lisComprasDao.persist(lisCompras);

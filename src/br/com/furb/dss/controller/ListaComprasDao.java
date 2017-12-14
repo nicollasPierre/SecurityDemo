@@ -10,6 +10,7 @@ import br.com.furb.dss.model.Usuario;
 import br.com.furb.dss.utils.AES;
 import br.com.furb.dss.utils.Hash;
 import br.com.furb.dss.utils.RSA;
+import br.com.furb.dss.utils.Salt;
 import java.util.Base64;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -90,6 +91,7 @@ public class ListaComprasDao {
         try {
             criptografaLista(listaCompras);
             assinaLista(listaCompras);
+            toggleKeyCamouflage(listaCompras);
             entityManager.getTransaction().begin();
             entityManager.persist(listaCompras);
             entityManager.getTransaction().commit();
@@ -101,8 +103,10 @@ public class ListaComprasDao {
 
     public void merge(ListaCompras listaCompras) {
         try {
+            toggleKeyCamouflage(listaCompras);
             criptografaLista(listaCompras);
             assinaLista(listaCompras);
+            toggleKeyCamouflage(listaCompras);
             entityManager.getTransaction().begin();
             entityManager.merge(listaCompras);
             entityManager.getTransaction().commit();
@@ -161,5 +165,30 @@ public class ListaComprasDao {
         AES aes = new AES(lista.getChaveSimetrica(), lista.getVetorInicializacao());
         lista.setLista(new String(aes.descriptografaComAES(lista.getLista())));
         return lista.getLista();
+    }
+
+    private byte[] doXOR(byte[] key, byte[] hash) {
+        byte[] xor = new byte[key.length > hash.length ? key.length : hash.length];
+        for (int i = 0; i < xor.length; i++) {
+            if (key.length < i && hash.length < i) {
+                xor[i] = (byte) (key[i] ^ hash[i]);
+            } else if (key.length < hash.length) {
+                xor[i] = hash[i];
+            } else {
+                xor[i] = key[i];
+            }
+        }
+        return xor;
+    }
+
+    private void toggleKeyCamouflage(ListaCompras shopList) {
+        byte[] hash = Base64.getDecoder().decode(shopList.getUsuario().getHash());
+        shopList.setChaveSimetrica(doXOR(shopList.getChaveSimetrica(), hash));
+        shopList.setChavePrivada(doXOR(shopList.getChavePrivada(), hash));
+    }
+
+    private byte[] doHash(byte[] senha, byte[] salt) {
+        return Hash.geraHash(senha, salt);
+        
     }
 }
