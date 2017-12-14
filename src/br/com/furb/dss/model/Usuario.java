@@ -20,8 +20,8 @@ import javax.persistence.Table;
 @Table(name="usuario")
 public class Usuario {
     @Id
-    @GeneratedValue
-    private int id;
+    //@GeneratedValue
+    private int id = 0;
     @Column
     private String login;
     @Column
@@ -38,7 +38,14 @@ public class Usuario {
         this.salt = salt;
         this.roles = roles;
     }
-    
+
+    public Usuario(int id, String login, String hash, Roles roles) {
+        this.id = id;
+        this.login = login;
+        this.hash = hash;
+        this.roles = new LinkedList<>();
+        this.roles.add(roles);
+    }
 
     public Usuario(String login, String hash, Roles role) {
         this.login = login;

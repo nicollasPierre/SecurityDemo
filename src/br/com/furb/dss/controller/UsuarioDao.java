@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
 
 /**
  *
@@ -53,14 +55,27 @@ public class UsuarioDao {
     public List<Usuario> findByLogin(String login) {
         return entityManager.createQuery("FROM " + Usuario.class.getName() + " WHERE login LIKE \'" + login + "\'").getResultList();
     }
-    
+
     public List<Usuario> findByLogin(String login, String senhaHash) {
         return entityManager.createQuery("FROM " + Usuario.class.getName() + " WHERE login LIKE \'" + login + "\' LIKE  \'" + senhaHash + "\'").getResultList();
-    }    
+    }
+
+    public Integer maxUserID() {
+//        DetachedCriteria.forClass(Usuario.class)
+//                .setProjection(Projections.max("id"));
+//        entityManager.createCriteria(Usuario.class)
+//                .add(Property.forName("id").eq(maxId))
+//                .list();
+        return (Integer) entityManager.createQuery("SELECT MAX(u.id) from Usuario u").getSingleResult();
+    }
 
     public void persist(Usuario usuario) {
         try {
+            
             entityManager.getTransaction().begin();
+            if (usuario.getId() == 0) {
+                usuario.setId(maxUserID() + 1);
+            }
             entityManager.persist(usuario);
             entityManager.flush();
             entityManager.getTransaction().commit();
