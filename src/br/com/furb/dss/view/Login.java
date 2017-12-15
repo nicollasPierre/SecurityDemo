@@ -40,9 +40,14 @@ public class Login extends javax.swing.JFrame {
         usuarioController.addUsuarioGeraSaltHashSenha(normal);
         UsuarioDao uDao = UsuarioDao.getInstance();
         admin.setId(1);
-        uDao.persist(admin);
-        uDao.persist(mod);
-        uDao.persist(normal);
+        
+        try{
+            uDao.persist(admin, true);
+            uDao.persist(mod, true);
+            uDao.persist(normal, true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
     }
 
     /**

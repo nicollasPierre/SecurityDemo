@@ -5,13 +5,12 @@
  */
 package br.com.furb.dss.controller;
 
+import br.com.furb.dss.model.Roles;
 import br.com.furb.dss.model.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
 
 /**
  *
@@ -69,23 +68,51 @@ public class UsuarioDao {
         return (Integer) entityManager.createQuery("SELECT MAX(u.id) from Usuario u").getSingleResult();
     }
 
-    public void persist(Usuario usuario) {
-        try {
-            
-            entityManager.getTransaction().begin();
-            if (usuario.getId() == 0) {
-                usuario.setId(maxUserID() + 1);
+    public void persist(Usuario usuario) throws Exception {
+        Usuario usuarioLogado = UsuarioController.getInstance().getUsuarioLogado();
+        if ((usuario.hasRole(Roles.usuarioNormal)
+                && !(usuario.hasRole(Roles.admin)
+                    || usuario.hasRole(Roles.moderador)))
+                || usuarioLogado != null
+                && (usuarioLogado.hasRole(Roles.admin)
+                || usuario.hasRole(Roles.usuarioNormal)
+                || (!usuario.hasRole(Roles.admin)
+                && usuarioLogado.hasRole(Roles.moderador)))) {
+            try {
+                entityManager.getTransaction().begin();
+                if (usuario.getId() == 0) {
+                    usuario.setId(maxUserID() + 1);
+                }
+                entityManager.persist(usuario);
+                entityManager.flush();
+                entityManager.getTransaction().commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                entityManager.getTransaction().rollback();
             }
-            entityManager.persist(usuario);
-            entityManager.flush();
-            entityManager.getTransaction().commit();
+        } else {
+            throw new Exception("Você não tem permissão apra criar esse usuário.");
+        }
+    }
+
+    public void persist(Usuario usuario, boolean criar) throws Exception {
+        try {
+            if (criar) {
+                entityManager.getTransaction().begin();
+                if (usuario.getId() == 0) {
+                    usuario.setId(maxUserID() + 1);
+                }
+                entityManager.persist(usuario);
+                entityManager.flush();
+                entityManager.getTransaction().commit();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             entityManager.getTransaction().rollback();
         }
     }
 
-    public void merge(Usuario uUsuario) {
+    private void merge(Usuario uUsuario) {
         try {
             entityManager.getTransaction().begin();
             entityManager.merge(uUsuario);

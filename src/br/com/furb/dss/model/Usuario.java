@@ -119,7 +119,19 @@ public class Usuario {
     public void setRoles(LinkedList<Roles> roles) {
         this.roles = roles;
     }
-
+    
+    public String getMainRoleStr() {
+        String roleStr = "Normal";
+        for (Roles role : roles) {
+            if(role == Roles.moderador) {
+                roleStr = "Moderador";
+            } else if(role == Roles.admin){
+                roleStr = "Admin";
+                break;
+            }
+        }
+        return roleStr;
+    }
     
     
     
