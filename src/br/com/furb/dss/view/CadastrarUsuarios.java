@@ -1,10 +1,12 @@
 package br.com.furb.dss.view;
 
+import br.com.furb.dss.controller.UsuarioController;
 import br.com.furb.dss.controller.UsuarioDao;
 import br.com.furb.dss.model.Roles;
 import br.com.furb.dss.model.Usuario;
 import br.com.furb.dss.utils.Hash;
 import br.com.furb.dss.utils.Salt;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -202,62 +204,20 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
 
     private void jButtonCriarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCriarActionPerformed
         try {
-            if (validaSenha(new String(jPasswordFieldSenha.getPassword()), new String(jPasswordFieldConfirmSenha.getPassword()))) {
+            HashMap infos = new HashMap();
+            infos.put("user", jTextFieldUser.getText());
+            infos.put("pass", jPasswordFieldSenha.getPassword());
+            infos.put("confPass", jPasswordFieldConfirmSenha.getPassword());
+            infos.put("roles", jRadioAdmin.isSelected() ? Roles.admin : jRadioModerador.isSelected() ? Roles.moderador : Roles.usuarioNormal);
+            UsuarioController.getInstance().createUser(infos);
 
-                String salt = Salt.geraSalt();
-                Usuario novoUsuario = new Usuario(jTextFieldUser.getText(),
-                        Hash.geraHash(new String(jPasswordFieldSenha.getPassword()), salt),
-                        Roles.usuarioNormal);
-                novoUsuario.setSalt(salt);
-                UsuarioDao.getInstance().persist(novoUsuario);
-                JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso");
-                this.dispose();
-            }
-
+            JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso");
+            this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Falha ao cadastrar novo usuario: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Falha ao cadastrar novo usuario:\n" + e.getMessage());
         }
     }//GEN-LAST:event_jButtonCriarActionPerformed
 
-    private boolean validaSenha(String senha, String senhaConfirmar) {
-        if (!senha.equals("") && !senhaConfirmar.equals("")
-                && senha.equals(senhaConfirmar)) {
-            if (senha.length() > 5) {
-                if (temNumero(senha)) {
-                    if (temLetra(senha)) {
-                        return true;
-                    } else {
-                        JOptionPane.showMessageDialog(this, "A senha deve ter no mínimo 1 letra");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "A senha deve ter no mínimo 1 número");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "A senha deve ter no mínimo 6 caracteres");
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Os campos Senha e confirma senha estão incorretos");
-        }
-        return false;
-    }
-
-    private boolean temNumero(String texto) {
-        for (int i = 0; i < texto.length(); i++) {
-            if (Character.isDigit(texto.charAt(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean temLetra(String texto) {
-        for (int i = 0; i < texto.length(); i++) {
-            if (Character.isLetter(texto.charAt(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         parentPanel.setVisible(true);
         this.dispose();
