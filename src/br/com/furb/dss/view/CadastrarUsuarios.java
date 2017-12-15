@@ -116,9 +116,9 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
 
         jLabel4.setText("A senha deve conter pelo menos:");
 
-        jLabel6.setText("1 letra maiúscula");
+        jLabel6.setText("6 caracteres");
 
-        jLabel7.setText("1 letra minúscula");
+        jLabel7.setText("1 letra");
 
         jLabel9.setText("1 número");
 
@@ -201,37 +201,63 @@ public class CadastrarUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void jButtonCriarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCriarActionPerformed
-        //JOptionPane.showMessageDialog(this, "Função não implementada");
-        try{
-        if(validaSenha(new String(jPasswordFieldSenha.getPassword()), new String(jPasswordFieldConfirmSenha.getPassword()))){
-            
-            String salt = Salt.geraSalt();
-            Usuario novoUsuario = new Usuario(jTextFieldUser.getText(), 
-                    Hash.geraHash(jPasswordFieldSenha.getPassword().toString(),salt), 
-                    Roles.usuarioNormal);
-            novoUsuario.setSalt(salt);
-            UsuarioDao.getInstance().persist(novoUsuario);
-            JOptionPane.showMessageDialog(this, "Usuario Normal Cadastrado com sucesso");
-            
-            
-        }
-        
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Falha ao Cadastrar novo usuario: "+e.getMessage());
+        try {
+            if (validaSenha(new String(jPasswordFieldSenha.getPassword()), new String(jPasswordFieldConfirmSenha.getPassword()))) {
+
+                String salt = Salt.geraSalt();
+                Usuario novoUsuario = new Usuario(jTextFieldUser.getText(),
+                        Hash.geraHash(new String(jPasswordFieldSenha.getPassword()), salt),
+                        Roles.usuarioNormal);
+                novoUsuario.setSalt(salt);
+                UsuarioDao.getInstance().persist(novoUsuario);
+                JOptionPane.showMessageDialog(this, "Usuario cadastrado com sucesso");
+                this.dispose();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Falha ao cadastrar novo usuario: " + e.getMessage());
         }
     }//GEN-LAST:event_jButtonCriarActionPerformed
 
-    private boolean validaSenha(String senha, String senhaConfirmar){
-         if (senha != null && senha != null 
-                && new String(jPasswordFieldSenha.getPassword()).equals(new String(jPasswordFieldConfirmSenha.getPassword()))){
-             return true;
-             
-         } else {
-             JOptionPane.showMessageDialog(this, "Os campos Senha e confirma senha estão incorretos");
-             return false;
-         }
+    private boolean validaSenha(String senha, String senhaConfirmar) {
+        if (!senha.equals("") && !senhaConfirmar.equals("")
+                && senha.equals(senhaConfirmar)) {
+            if (senha.length() > 5) {
+                if (temNumero(senha)) {
+                    if (temLetra(senha)) {
+                        return true;
+                    } else {
+                        JOptionPane.showMessageDialog(this, "A senha deve ter no mínimo 1 letra");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "A senha deve ter no mínimo 1 número");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "A senha deve ter no mínimo 6 caracteres");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Os campos Senha e confirma senha estão incorretos");
+        }
+        return false;
     }
-    
+
+    private boolean temNumero(String texto) {
+        for (int i = 0; i < texto.length(); i++) {
+            if (Character.isDigit(texto.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean temLetra(String texto) {
+        for (int i = 0; i < texto.length(); i++) {
+            if (Character.isLetter(texto.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         parentPanel.setVisible(true);
         this.dispose();

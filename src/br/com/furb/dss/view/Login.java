@@ -27,11 +27,11 @@ public class Login extends javax.swing.JFrame {
         usuarioController = UsuarioController.getInstance();
 
         Usuario admin = new Usuario("paulo", "123", Roles.usuarioNormal);
-        //admin.addRole(Roles.moderador);
-        //admin.addRole(Roles.admin);
+        admin.addRole(Roles.moderador);
+        admin.addRole(Roles.admin);
 
         Usuario mod = new Usuario("daniel", "123", Roles.usuarioNormal);
-        //mod.addRole(Roles.moderador);
+        mod.addRole(Roles.moderador);
 
         Usuario normal = new Usuario("nicollas", "123", Roles.usuarioNormal);
 

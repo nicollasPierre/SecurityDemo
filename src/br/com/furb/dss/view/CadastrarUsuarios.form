@@ -187,12 +187,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="1 letra mai&#xfa;scula"/>
+        <Property name="text" type="java.lang.String" value="6 caracteres"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
-        <Property name="text" type="java.lang.String" value="1 letra min&#xfa;scula"/>
+        <Property name="text" type="java.lang.String" value="1 letra"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
